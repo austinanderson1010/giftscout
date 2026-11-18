@@ -8,7 +8,7 @@ GiftScout is being built as a full gift-discovery platform with affiliate revenu
 - 60-second gift finder with recipient, age, occasion, budget, and interest inputs.
 - Recommendation filtering and ranking against a product catalog.
 - Supabase integration for active product reads.
-- Demo catalog fallback so the experience can be previewed before a database is connected.
+- Supabase-backed public catalog that only displays products explicitly marked active.
 - Product click redirect endpoint with click-event recording when Supabase is connected.
 - Initial database schema for products, click events, brands, and sponsor campaigns.
 - Admin workspace placeholder, intentionally not writable until authentication and admin-only policies are configured.
@@ -34,7 +34,7 @@ The click endpoint records product click events when configured. It cannot know 
 
 4. Open http://localhost:3000.
 
-The app will run with demo products before Supabase is configured.
+The public storefront intentionally shows no product recommendations until Supabase is configured and approved products are marked active. This prevents placeholder/example products from being mistaken for real inventory.
 
 ## Connect Supabase
 
@@ -51,6 +51,15 @@ The app will run with demo products before Supabase is configured.
 5. Restart the Next.js development server.
 
 The public application reads active products. The schema intentionally does not grant public product writes. Admin authentication and restrictive admin policies must be implemented before enabling catalog editing.
+
+## Cloudflare Workers deployment
+
+For this repository's Cloudflare Workers deployment, configure the following values in the Cloudflare build environment and the Worker production variables before rebuilding:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: your Supabase project URL.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: your Supabase anon/publishable key.
+
+Use only the anon/publishable key for these public variables. Never expose a Supabase service-role key in `NEXT_PUBLIC_*`, client code, or Cloudflare build variables. Keep product rows in `draft` until the image, retailer, price, availability, and affiliate review gates have passed.
 
 ## Recommended build sequence
 
