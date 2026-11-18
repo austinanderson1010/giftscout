@@ -24,7 +24,7 @@ This branch prepares the app for a safe production connection to Supabase.
 
 ## Current implementation notes
 
-The server-side homepage reads active products and otherwise falls back to demo products. This fallback should not be mistaken for the live Supabase catalog. The admin workspace uses Supabase Auth and an `is_giftscout_admin` RPC; confirm that RPC and admin policies exist before relying on the admin page.
+The public homepage now reads only active Supabase products and does not fall back to demo/example inventory. When Supabase is not configured or no active products exist, the finder presents a catalog-in-setup message. The outbound click route now only resolves active products and only redirects to HTTPS destinations. The admin workspace uses Supabase Auth and an `is_giftscout_admin` RPC; confirm that RPC and admin policies exist before relying on the admin page.
 
 ## Catalog status (2026-11-18)
 
