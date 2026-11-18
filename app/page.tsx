@@ -1,22 +1,28 @@
 import GiftFinder from "@/components/GiftFinder";
-import { demoProducts } from "@/lib/demo-products";
 import { hasSupabase, supabase } from "@/lib/supabase";
 import type { GiftProduct } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 async function getProducts(): Promise<GiftProduct[]> {
-  if (hasSupabase && supabase) {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("status", "active")
-      .order("created_at", { ascending: false })
-      .limit(100);
-
-    if (!error && data?.length) return data as GiftProduct[];
+  if (!hasSupabase || !supabase) {
+    console.warn("GiftScout catalog is not connected to Supabase yet.");
+    return [];
   }
-  return demoProducts;
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("status", "active")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error("Unable to load the GiftScout catalog:", error.message);
+    return [];
+  }
+
+  return (data ?? []) as GiftProduct[];
 }
 
 export default async function Home() {
