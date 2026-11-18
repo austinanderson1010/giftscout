@@ -6,7 +6,7 @@ This branch prepares the app for a safe production connection to Supabase.
 
 - 250 product rows exist in Supabase. Keep them as drafts until product-level verification, approved images, and affiliate tracking are complete.
 - Do not bulk-activate products.
-- Configure these Cloudflare Worker production variables:
+- Configure both Workers Builds **Build variables and secrets** and Worker **Settings → Variables and Secrets** with these values:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - Use the Supabase anon/publishable key only. Never put a service-role key in a public environment variable or the browser.
@@ -16,7 +16,7 @@ This branch prepares the app for a safe production connection to Supabase.
 ## Test plan
 
 1. Deploy this branch to a Cloudflare preview.
-2. Add the Supabase URL and publishable/anon key in Worker production and preview variables.
+2. Add the Supabase URL and publishable/anon key to both build-time variables and runtime variables. Configure preview variables separately if testing a preview deployment.
 3. Confirm the public site reads active products from Supabase.
 4. Confirm draft products do not appear publicly.
 5. Click an active product and verify redirect + click event recording.
