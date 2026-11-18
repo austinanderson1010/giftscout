@@ -14,7 +14,18 @@ const budgets = [
   { label: "$250+", max: 100000 }
 ];
 
-function GiftRevealModal({ onViewShortlist, onClose, count }: { onViewShortlist: () => void; onClose: () => void; count: number }) {
+function GiftRevealModal({ onViewShortlist, onClose, count, hasProducts }: { onViewShortlist: () => void; onClose: () => void; count: number; hasProducts: boolean }) {
+  const hasResults = count > 0;
+  const title = hasResults
+    ? "We've found something they'll love!"
+    : hasProducts
+      ? "Let's broaden the search"
+      : "We're getting the catalog ready";
+  const description = hasResults
+    ? `We curated ${count === 1 ? "a gift idea" : `${count} gift ideas`} based on your answers. Your shortlist is ready to explore.`
+    : hasProducts
+      ? "We couldn't find a match for those preferences yet. Try a higher budget or broader interests."
+      : "We're connecting the verified GiftScout catalog. Gift recommendations will appear here as soon as approved products are ready.";
   return (
     <div className="gift-modal-backdrop" role="presentation" onMouseDown={(event) => {
       if (event.target === event.currentTarget) onClose();
@@ -31,11 +42,11 @@ function GiftRevealModal({ onViewShortlist, onClose, count }: { onViewShortlist:
             <div className="modal-gift-body"><i /></div>
           </div>
         </div>
-        <span className="eyebrow">YOUR GIFT SCOUT SHORTLIST IS READY</span>
-        <h2 id="gift-modal-title">We've found something they'll love!</h2>
-        <p>We curated {count === 1 ? "a gift idea" : `${count} gift ideas`} based on your answers. Your shortlist is ready to explore.</p>
+        <span className="eyebrow">{hasResults ? "YOUR GIFT SCOUT SHORTLIST IS READY" : "GIFTSCOUT CATALOG UPDATE"}</span>
+        <h2 id="gift-modal-title">{title}</h2>
+        <p>{description}</p>
         <button className="gift-modal-cta" type="button" onClick={onViewShortlist}>
-          View my gift shortlist <span>→</span>
+          {hasResults ? "View my gift shortlist" : "See catalog status"} <span>→</span>
         </button>
         <button className="gift-modal-secondary" type="button" onClick={onClose}>Stay on this page</button>
       </section>
@@ -180,6 +191,7 @@ export default function GiftFinder({ products }: { products: GiftProduct[] }) {
       {showGiftModal && (
         <GiftRevealModal
           count={results.length}
+          hasProducts={products.length > 0}
           onViewShortlist={openShortlist}
           onClose={() => setShowGiftModal(false)}
         />
@@ -199,13 +211,13 @@ export default function GiftFinder({ products }: { products: GiftProduct[] }) {
           <div className="results-title">
             <div>
               <span className="eyebrow">YOUR GIFT SHORTLIST</span>
-              <h3>{results.length ? `Ideas for ${recipient.trim() || "your recipient"}` : "Let's broaden the search"}</h3>
+              <h3>{results.length ? `Ideas for ${recipient.trim() || "your recipient"}` : products.length ? "Let's broaden the search" : "Our gift catalog is getting ready"}</h3>
             </div>
             <button className="text-button" type="button" onClick={() => setSubmitted(false)}>Edit answers</button>
           </div>
 
           {results.length === 0 ? (
-            <p className="muted">No matches in this catalog. Try a higher budget or broader interests.</p>
+            <p className="muted">{products.length ? "No matches in this catalog. Try a higher budget or broader interests." : "We are connecting the verified GiftScout catalog. Please check back soon."}</p>
           ) : (
             <div className="product-grid">
               {results.map((product, index) => (
