@@ -61,6 +61,12 @@ For this repository's Cloudflare Workers deployment, configure the following val
 
 Use only the anon/publishable key for these public variables. Never expose a Supabase service-role key in `NEXT_PUBLIC_*`, client code, or Cloudflare build variables. Keep product rows in `draft` until the image, retailer, price, availability, and affiliate review gates have passed.
 
+## Catalog enrichment and affiliate rollout
+
+- See [the affiliate and product-media rollout plan](docs/affiliate-rollout.md) for the current retailer-by-retailer application priorities, image licensing rules, and product activation gates.
+- Use the [product enrichment CSV template](docs/product-enrichment-template.csv) to stage approved affiliate URLs and licensed image URLs for import. Do not add guessed tracking URLs or unlicensed product images.
+- The current 250-product catalog remains in Supabase as draft inventory; these files do not activate or modify those rows.
+
 ## Recommended build sequence
 
 1. Configure Supabase and seed a small, verified catalog.
