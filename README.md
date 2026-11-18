@@ -16,7 +16,7 @@ GiftScout is being built as a full gift-discovery platform with affiliate revenu
 
 ## Important current limitations
 
-This is an application starter, not a publicly deployed production service. It does not yet contain a finished admin login, product CRUD interface, image uploader, retailer feed sync, affiliate network integrations, conversion attribution, or paid campaign billing. The demo products use example retailer links and are not purchasable listings. Do not publish the demo catalog as live inventory.
+GiftScout is deployed on Cloudflare Workers at `https://giftscout.giftscout.workers.dev`. The public catalog is not launch-ready until Supabase is configured and reviewed products are activated. The project does not yet include a finished image uploader, retailer feed sync, affiliate network integrations, conversion attribution, or paid campaign billing. Do not treat any placeholder/demo content as purchasable inventory.
 
 The click endpoint records product click events when configured. It cannot know whether a customer completed a purchase unless the relevant affiliate network provides conversion reporting or postbacks and those are integrated.
 
@@ -69,7 +69,7 @@ Use only the anon/publishable key for these public variables. Never expose a Sup
 4. Add affiliate network tracking and conversion reporting where supported.
 5. Build sponsor campaign management and clearly labeled paid placements.
 6. Add SEO gift-guide pages, analytics, privacy/terms, and production monitoring.
-7. Deploy to Vercel and connect the GiftScout domain.
+7. Deploy to Cloudflare Workers and keep the free `workers.dev` address until a custom domain is worthwhile.
 
 ## Security
 
