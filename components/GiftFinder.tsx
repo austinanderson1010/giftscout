@@ -199,13 +199,13 @@ export default function GiftFinder({ products }: { products: GiftProduct[] }) {
           <div className="results-title">
             <div>
               <span className="eyebrow">YOUR GIFT SHORTLIST</span>
-              <h3>{results.length ? `Ideas for ${recipient.trim() || "your recipient"}` : "Let's broaden the search"}</h3>
+              <h3>{results.length ? `Ideas for ${recipient.trim() || "your recipient"}` : products.length ? "Let's broaden the search" : "Our gift catalog is getting ready"}</h3>
             </div>
             <button className="text-button" type="button" onClick={() => setSubmitted(false)}>Edit answers</button>
           </div>
 
           {results.length === 0 ? (
-            <p className="muted">No matches in this catalog. Try a higher budget or broader interests.</p>
+            <p className="muted">{products.length ? "No matches in this catalog. Try a higher budget or broader interests." : "We are connecting the verified GiftScout catalog. Please check back soon."}</p>
           ) : (
             <div className="product-grid">
               {results.map((product, index) => (
